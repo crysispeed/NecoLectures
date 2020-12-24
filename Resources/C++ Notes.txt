@@ -1,0 +1,1362 @@
+﻿2.Ders
+array decay (array to pointer conversion)
+type deduction
+    - auto
+    - decltype
+    
+generic programming paradigm
+Templates (C++) (Compile Time'da compiler'a kod yazdırma)
+
+L value reference
+R value reference
+ - Move semantics
+ - perfect forwarding
+value category
+const correctness
+
+Kitap: Concurrency in Action
+------------------------------------
+3.Ders
+conventions
+Acronym
+    -ODR (One definition rule)
+    -ALD
+    -SFINAE
+variadic function (3 nokta parametresi)
+
+Early Binding
+Static binding
+
+Late binding
+Dynamic binding
+function signature
+
+------------------------------------
+4.Ders
+Function overload resolution
+
+1. Step
+candidate functions
+2. Step
+viable functions
+
+best match / viable
+
+type-cast operators
+static type-cast
+
+int i1, i2;
+(double) i1 / i2;
+
+static_cast<double>(ival)
+const_cast
+reinterpret_cast
+dynamic_cast
+------------------------------------
+5.Ders
+auto x = expr;
+auto &x = expr;
+auto &%x = expr; // forwarding reference / universal reference (İleride)
+
+unevaluated context
+extern "C"
+inline expansion
+-------------
+C Tekrarı
+external linkage
+internal linkage
+extern bildirimleri
+static in C
+complete type
+incomplete type
+------------------------------------
+6.Ders
+Class definition
+class tag
+class members
+    - data member
+        -- Static data member
+        -- Non-static data member
+    - member functions(methods)
+        -- Static member function
+        -- Non-static member function
+    - member type (type member - nested type)
+    
+class Neco
+{
+   int mx, my;    // data member
+   void func(); // member function
+   typedef unsigned char Byte;    // member type
+};
+
+access control
+    public
+    private
+    protected
+    
+public ögeler -> Tüm kodlara açık
+private ögeler -> client kodlara kapalı, sınıfın kendi kodlarına açık
+protected -> private ile neredeyse aynı, inherited class'lar da görebilir
+
+Erişim kontrolleri sıralaması
+    1) Name lookup
+    2) Context control
+    3) Access control
+
+C++
+namespace scope
+class scope
+block scope
+function prototype scope
+function scope
+
+Scope resolution opeator ---> :: (unary or binary)
+unary-> ::g (Direkt global scope'ta g variable'ına bakar, diğer scope'ları gözardı eder.)
+------------------------------------
+7.Ders
+Video başlığı: classes 2: this, name lookup in class member function, const member function, mutable keyword
+-----------------
+Problem Domain
+Fluent API
+-----------------
+Const member function:
+1. const üye fonksiyonlar sınıfın non-static veri elemanlarını salt okuma amaçlı kullanabilirler.
+2. Bir sınıfın const üye fonksiyonu sınıfın const olmayan üye fonksiyonunu çağıramaz.
+3. Bir const sınıf nesnesi için yalnızca sınıfın const üye işlevlerini çağırabilirsiniz.
+
+class Data{
+    public:
+        void foo()const; // const member function (Amacı, adresini aldığı nesneyi salt okuma erişimi olarak kullanma)
+        void func(); // non-const member function
+    private:
+    int mx;
+}
+-----------------
+mutable keyword: const üye fonksiyonların içinde class member variable'ını değiştirmesine olanak sağlar.
+-----------------
+this keyword: fonksiyon içinde kullanıldığında fonksiyonu çağıran objenin adresini tutar.
+------------------------------------
+8.Ders
+Video başlığı: classes 3: constexpr keyword, constexpr function, headers and implementation files, inline functions, ODR(One Definition Rule), deleted functions, constuctor and destructor 1
+-----------------
+constexpr function: bir constexpr fonksiyonuna çağrı yapıldığında eğer tüm parametrelerine gönderilecek argüman olan ifadeler "const expression" ise böyle bir işlevin geri dönüş değeri compile time'da elde ediliyor
+ve fonksiyona yapılan çağrı ifadesi de bu durum...
+
+constexpr int sum_square(int a, int b){
+
+} 
+
+1) bir fonksiyonun constexpr olabilmesi için umesi gereken koşullar:
+    a) işlevin tüm parametreleri "literal type" olmalı
+    b) işlevin geri dönüş değeri türü yine literal type olmak zorunda
+    c) fonksiyonun tanımı içinde
+        i) statik ömürlü bir değişken tanımlanamaz
+        ii) thread_local bir değişken tanımlanamaz
+        iii) global bir değişkeni kullanamaz
+    d) virtual function olamaz
+    e) ilk değer verilmemiş bir değişken verilemez
+
+C++ dilinde başlık dosyalarında kod olması:
+1) inline fonksiyon
+2) constexpr fonksiyonların tanımları
+3) template kodlar
+    - function template
+    - class template
+    - variable template (C++ 14)
+    - ailas template
+4) inline variables (C++ 17)
+
+inline functions
+- Fonksiyonun yerine compile edilmiş kodu yerleştir. Optimizasyon sağlar. (C'deki macrolar)
+
+ODR (One definition rule):
+Fonksiyonların, sınıfların, değişkenlerin tek bir tanımı olmak zorundadır.
+Bunlar birden fazla kez bildirilebilir ancak bir kez tanımlanmak zorundadır.
+
+
+
+-----------------
+Bit field member
+------------------------------------
+9.Ders
+Video başlığı: classes 4: constuctor and destructor 2, variable lifetimes (tekrar), initializations (Default, value), special member functions 1
+-----------------
+destructor
+default constructor: Parametresi olmayan ya da tüm parametreleri default argüman olan constructor'lardır.
+to default a special member function
+
+A ax; // default initialization
+int ival; // default initialization
+-----------------
+
+special member functions: (Compiler tarafından kodu yazılabilen fontksiyonlar)
+    - default ctor
+    - copy ctor
+    - move ctor  // C++11
+    - destructor  
+    - copy assignment  
+    - move assignment  // C++11
+    
+------------------------------------
+10.Ders
+Video başlığı: classes 5: constuctor and destructor 3, constructor initializer list, copy constructor 1
+-----------------
+RAII
+-----------------
+Constructor/Member initializer list
+
+public class Myclass{
+public:
+    Myclass();
+private:
+    int mx, my;
+};
+
+Myclass::Myclass() : mx(0) /* mx {0} */, my(10) /* my {10} */
+{
+
+}
+------------------------------------------------------------------------
+EXTRA: Gameplay Programming Patterns
+Data oriented design
+"Once per frame" policy
+------------------------------------------------------------------------
+11.Ders
+Video başlığı: classes 6: special member functions 2, copy constructor 2, copy assignment, move constructor 1
+-----------------
+Big 3: (Old C++)
+destructor
+copy ctor
+copy assignment
+
+Big 5: (New C++)
+destructor
+copy ctor
+copy assignment
+move ctor
+move assignment
+-----------------
+copy assignment:
+x = y; =====> x.operator=(y);
+
+class Neco{
+
+public:
+    Neco &operator=(const Neco &other) // Compiler'ın yazdığı copy assignment örneği
+    {
+        ma = other.ma;
+        mb = other.mb;
+        mc = other.mc;
+        
+        return *this;
+    }
+
+private:
+    A ma;
+    B mb;
+    C mc;
+}
+
+move semantics:
+Myclass(const Myclass &); // Copy constructor (L value ile çağırılma)
+Myclass(Myclass &&);    // Move constructor (R value ile çağırılma)
+------------------------------------
+11.Ders
+Video başlığı: classes 7: special member functions 3, move constructor 2, move assignment, conversion constructor, explicit keyword, temporary objects
+-----------------
+copy swap idiom (exception handling konusunda göreceğiz)
+life extension
+------------------------------------
+12.Ders
+Video başlığı: classes 8: Copy elision(Elimination), operator overloading 1
+-----------------
+RVO: Return Value Optimization
+NRVO: Named Return Value Optimization
+-----------------
+operator functions
+    global operator function
+    member operator function
+
+Matrix m1, m2, m3, m4;
+m1 = m2 * m3 + m4;
+
+Unary operators:
+!x
+x++
+~y
+
+Binary Operators:
+a > b
+x % y
+
+Operator overloading kuralları:
+1. Olmayan operatör yüklenmez. (Eg. @)
+
+2. Primitive türler için kullanılamaz.
+
+3. Bazı operatörler overload edilemez.
+    sizeof
+    ternary operator (a ? b : c)
+    . (dot / member selection)
+    :: (scope resolution operator)
+    .* operator
+    typeid operator
+
+4.1 bazı operatörler global operatör fonksiyonu olarak yüklenemezler.
+    [] köşeli parantez op.
+    -> ok operatörü
+    fonksiyon çağrı operatörü
+4. Çağırılan operatör fonksiyonu, sınıfın statik üye fonksiyonu olamaz.
+    global ya da non-static member function
+
+5. İsimleri operator anahtar sözcüğü ile oluşturulur.
+    operator+
+    operator>
+    operator->
+    operator++
+    operator=
+
+6. Biri hariç (fonksiyon çağrı operatörü) varsayılan argüman alamazlar.
+
+7. Operatörlerin arity'si (operand sayısı) değiştirilemez.
+unary operatorler unary olarak
+binary operatorler binary olarak
+8. Tüm operatör fonksiyonları isimleri ile çağırılabilir.
+9. Operatör öncelik seviyesi ve operatör öncelik yönü değiştirilemez.
+-----------------
+a + b toplama operatörü
++x işaret operatörü (Sign operator)
+
+a - b çıkarma operatörü
+-x işaret operatörü (Sign operator)
+
+&x address of
+x & y bitwise and
+
+*ptr dereferencing operator
+x * y multiplication
+
+------------------------------------
+13.Ders
+Video başlığı: classes 9: Friend Declaration, operator overloading 2 (arithmetic operators, special operators ([], *))
+-----------------
+++x ==> L value expression
+--y ==> L value expression
+
+x++ ==> PR value expression
+y-- ==> PR value expression
+-----------------
+Friend keyword:
+class Myclass {
+private:
+    friend void func(int);
+}
+
+class Neco {
+    ??? operator++();
+    ??? operator++(int); // postfix
+}
+
+// Global space
+operator ++(Neco&);
+operator ++(Neco&, int); // Postfix
+
+------------------------------------
+14.Ders
+Video başlığı: classes 10: operator overloading 3 (special operators (*, ->, (), type-cast)), static variables and static member functions 1
+-----------------
+standard conversion
+user-defined conversion
+    conversion ctor
+    type-cast
+------------------------------------
+15.Ders
+Video başlığı: classes 11: static variables and static member functions 2, singleton design pattern, nested member types 1
+------------------------------------
+16.Ders
+Video başlığı: classes 12: nested member types 2, including header files (pimpl idiom), composition, kamera düştü :D, ctor - dtor tekrar
+-----------------
+pimpl idiom
+pointer implementation
+opaq pointer idiom
+handle-body idiom
+cashire-cat idiom
+-----------------
+
+association
+    aggregation
+        composition
+
+inheritance
+
+Eğer sınıfınızın def. ctor'u derleyici tarafından default edilirse
+derleyicinin yazdığı defalut ctor veri elemanlarını default init eder (çöp değer ile başlar). Eğer class'ın içinde başka class varsa onun default ctor'u çağırılır.
+------------------------------------
+17.Ders
+Video başlığı: classes 13: composition 2 (example - stack implementation), templates göndermesi, namespaces, using keyword, ADL (Argument Dependant Lookup)
+-----------------
+ADT (Abstract Data Type)
+    stack (LIFO) (push, pop, top, size, empty, clear)
+    queue 
+    priority queue
+GNPP (Global namespace pollution problem)
+
+using declaration
+using namespace (directive) declaration
+ADL (Argument Dependant Lookup) (Koenig lookup)
+-----------------
+::x -> Global namespace'te arar
+A::x -> A namespace'inde arar
+
+namespace { // Unnamed namespace
+
+}
+
+using bildiriminin bir scope'u vardır.
+
+using keyword:
+    1) using Word = int;
+    2)
+        class Der {
+            using Base::foo;
+        }
+    3) using std:cout;
+    4) using namespace std;
+------------------------------------
+18.Ders
+Video başlığı: classes 14: composition 2.5(Dersler karıştı), ADL tekrar, linkage, unnamed namespace, nested namespace, Necati hoca adamlık dersi veriyor, ODR tekrar, inline variables, inline namespace, namespace alias, string class 1
+-----------------
+Eğer projeyi oluşturan birden fazla kaynak dosyada kullanılan isim aynı varlığa ilişkin ise, bu isim external linkage'a aittir
+linkage
+    external linkage
+    internal linkage
+-----------------
+
+------------------------------------
+19.Ders
+Video başlığı: classes 15: string class 1, initializer_list class 1
+-----------------
+SSO -> Small string optimization
+SBO
+NTBS -> null terminated byte strings
+
+sequence containers
+vector
+array
+list
+queue
+string
+
+associative containers
+
+set
+multiset
+map
+multimap
+
+unordered associative containers
+
+unordered_set
+unordered_multiset
+unordered_map
+unordered_multimap
+
+-----------------
+string -> basic_string<char, chat_traits<char>, allocator<char>>
+string::size_type size_t
+
+a) uzunluk türü
+    .size()
+    .length()
+
+b) idx
+c) tane - adet değeri   size_type
+
+string::size_type size()const;
+string::size_type length()const;
+bool empty()const;
+
+print_s(str) // String ile ilgili bilgileri yazdırır
+
+string::falanca(const char *p) //cstring
+string::falanca(const char *p, size_t len) // Data parameter (null terminator'a bakmaz)
+string::falanca(string str)
+string::falanca(string str, size_type idx)
+string::falanca(string str, size_type idx, size_type n)
+string::falanca(string_size_type,char c)    //10, 'A' (10 tane A karakteri)
+string::falanca(initializer_list<char>)     // {'a', 'l', 'p'}
+
+string sx(x, c); // x tane c
+string sx {x, c}; // initializer list constructor'ı çağırılır. ascii'de x'e tekabul eden harf ve c yazılır.
+------------------------------------
+20.Ders
+Video başlığı: classes 16: string class 2, inheritance 1
+-----------------
+insert and erase
+iterator interface
+index interface
+range erase
+
+public inheritance -> is-a relationship
+private inheritance -> has-a relationship
+protected inheritance -> has-a relationship
+-----------------
+Inheritance:
+class Base{};
+
+class Der : public Base{
+
+};
+
+------------------------------------
+21.Ders
+Video başlığı: classes 17: inheritance 2, virtual functions 1, override functions, contextual keyword, virtual dispatch 2
+-----------------
+class Airplane{
+    void takeoff(); //1
+    virtual void fly(); //2 - Virtual function
+    virtual void fly() = 0; //3 - Pure virtual function
+};
+
+1) Türemiş sınıflara hem bir interface hem de implementasyon veren
+2) Türemiş sınıflara hem bir interface hem de default implementasyon veren
+    override
+    polymorphic class
+3) Türemiş sınıflara sadece interface veren implementasyon vermeyen
+    abstract class
+    concrete class
+
+------------------------------------
+22.Ders
+Video başlığı: classes 18: inheritance 3, virtual functions 2, virtual dispatch 2, virtual destructor, using keyword in class, covariance (variant return type)
+-----------------
+cppquiz.org
+NVI - Nonvirtual Interface Idiom
+-----------------
+Sanallık mekanizması nasıl derleyici tarafından implemente edilir
+Sanallık mekanizmasının devreye girdiği / girmediği yerler
+
+Eğer bir class'ta virtual function varsa, bir pointer fazla yer kaplar (Virtual Fonksiyonun pointer'ını tutar)
+
+Taban sınıfı destructor'u
+------------------------------------
+23.Ders
+Video başlığı: classes 19: inheritance 4, covariance tekrar, final contextual keyword, unique_ptr, inherited constructor, private - protected inheritance, empty class, multiple inheritance 1
+-----------------
+final class
+final override
+
+maximum munch rule
+RTTI
+EBO (Empty Base Optimization)
+multiple inheritance ve multi-level inheritance farklı şeyler
+Diamond formation
+DDD Dreaded Diamond of Derivation
+DDD Deathful Diamond of Derivation
+-----------------
+
+maximum munch rule
+
+int x = 10;
+int y = 20;
+
+int a = x+++y; // Aşağıdaki gibi ele alınır (Compiler en önce en uzun operator döngüsünü alır)
+
+int a = x++ + y;
+------------------------------------
+23.Ders
+Video başlığı: classes 19: inheritance 5, multiple inheritance 2, virtual inheritance, exception handling 1
+-----------------
+Diamond formation
+DDD Dreaded Diamond of Derivation
+DDD Deathful Diamond of Derivation
+
+programming error
+runtime error
+assertion (doğrulama)
+
+a) dynamic assertions
+    runtime assertions
+b) static assertions
+    runtime assertions
+uncaught exception
+-----------------
+
+virtual inheritance
+Ortak taban sınıfından bir tane olmasını istiyorsak, virtual inheritance yapmamız gerekiyor.
+
+class Fax : virtual public Device {
+
+};
+
+
+hatayı yakaladığımda ne yapacağım?
+    terminative way (Direkt kapat)
+    resumptive way - exception safety (Program çalışmaya devam etsin)
+------------------------------------
+24.Ders
+Video başlığı: classes 19: exception handling 2
+-----------------
+Copy elision
+exception safe
+Stack unwinding
+-----------------
+set_terminate(&my_terminate); // When we want to do something when terminating, use this
+
+throw statement
+
+throw; // rethrow statement
+throw exp; 
+
+decltype(exp) exception_object;
+
+i) throw ifadesinin türü
+
+class FileReadError {
+
+};
+
+throw FileReadError{filename};
+
+===========================================
+
+a) C++'ın kendi exception sınıflarını doğrudan kullanabilirsiniz.
+b) exception std class'ını inherit etmek
+c) Kendi sınıf hiyerarşimizi oluşturmak
+
+Hatanın yakalanabilmesi için:
+    - Gönderilen hata nesnesinin türü ile catch parametresinin türü tamamen aynı olmalı
+    - İstisna, gönderilen nesne Der ise ve Base inherit edilmişse, Base'li catch'i yakalar.
+
+eğer aksi yönde bir zorunluluk yoksa catch parametresi referans olmalı:
+(Referans olmazsa parametre için de copy constructor çağırılır. Ama Copy construction da exception throw edebilir. Sonra al başına belayı.)
+(Ve de object slicing olmasın diye inheritance yapıldıysa)
+(Aynı zamanda const olması da çokomelli)
+
+catch(const Myexception &x){
+
+}
+------------------------------------
+25.Ders
+Video başlığı: classes 19: exception handling 3, exception handling tekrar, creating classes for exceptions, constructors and exceptions
+-----------------
+class invariants
+unevaluated context
+-----------------
+// Tüm hataları yakalamak için üç nokta kullanılır (ellipsis).
+catch(...){
+
+    cout << "bilinmeyen bir hata yakalandı";
+}
+
+rethrow statement
+
+yakalanmış hata nesnesinin yeniden gönderilmesi
+
+try {
+
+}
+
+catch(T &x)
+{
+    throw x; // Yanlis, x nesnesini siler yeni bir nesne yaratir. (This is not rethrow)
+             // exception turunden yeni bir nesne yaratilir.
+}
+
+try {
+
+}
+
+catch(T &x)
+{
+    throw;  // Dogru, orijinal yakalanan exception nesnesini tekrar yolla
+}
+
+Fighter myfighter{////};
+
+Bir sınıfın destructor'u asla exception throw etmemeli
+(exception throw etse dahi bu exception destructor'dan dışarı çıkmamalı)
+
+Eğer stack unwinding süreci içinde bir sınıf nesnesi için
+destructor çağırıldığında çağırılan destructor exception throw ederse
+bu durumda derleyici terminate işlevini çalıştırır.
+
+===========================================
+exception specifications
+
+// Bunlar eskide kaldı
+void func(int) throw (std::bad_alloc, std::out_of_range); // Bu iki exception'ı gönderebilirim
+void foo()throw(); // Bir exception göndermeyeceğim
+
+//Yeni syntax
+noexcept keyword
+
+void foo()noexcept; // Exception göndermeme garantisi
+void func()noexcept(constant exp); // Bu ifade (constant exp) true ise noexcept garantisi var
+
+//Bu operator olan noexcept
+int foo(); // false
+int foo()constexpr; // true
+
+noexcept(foo); //Boolean değer döndüren bir operator(foo noexcept değilse false, noexcept keyword'ü var ise true)
+
+Eğer noexcept garantisi veren bir fonksiyon
+runtime'da çağırıldığında exception throw ederse (çoğunlukla noexcept fonksiyonunun içinde noexcept olmayan bir fonksiyon exception throw ederse)
+derleyici std::terminate işlevini çağırır.
+===========================================
+exception guarantees
+
+- herhangi bir güvencenin verilmemesi (Kabul edilemez)
+
+- Basic exception guarantee
+    - Programın durumu değişebilir
+    - Program tutarlı (devam edebilecek) bir durumda kalacak
+    - Resource leak olmayacak.
+    - Fonksiyon hiçbir nesneyi geçersiz durumda bırakmayacak.
+
+- Strong Guarantee
+    - Programın durumu değişmeyecek (O fonksiyon çağırıldığında o nesne nasıl ise onda bir değişiklik olmayacak)
+    - Commit or Rollback: Ya işini gör ya da hiçbir şey yapılmamış durumda bırak. İşlev çağırılmadan önce durum nasılsa işlev çağırıldıktan sonra da durum aynı olmalı
+    - Program tutarlı bir durumda kalacak.
+
+- Nothrow Guarantee
+    - Fonksiyon işini yapma garantisini veriyor.
+    - Hata gönderilirse kendi yakalayıp işini görecek.
+
+------------------------------------
+26.Ders
+Video başlığı: classes 19: exception handling 4, function try block, Runtime Type Identification, generic programming 1
+-----------------
+RTTI (Runtime Type Identification/Information)
+unevaluated context
+-----------------
+function try block
+
+void func()
+try{
+    //code
+}
+catch (int) {
+
+}
+
+constructors: 
+
+
+Myclass()try : mx(10) // Can catch the mx's throws
+{
+    //code
+}
+catch (int) {
+
+}
+===========================================
+tekrar:
+Type casting operators:
+static_cast: static_cast<target_type>(x)
+const_cast
+reinterpret_cast
+dynamic_cast (Inheritance'ı öğrendikten sonra öğrenecektik, o yüzden tekrar ettik)
+dynamic_cast<target_type>(x)
+Dynamic cast taban sınıftan türemiş sınıfa dönüşümü sağlar.
+===========================================
+Runtime Type Identification (RTTI)
+
+dynamic_cast operator
+typeid operator
+    type_info class
+
+dynamic_cast: dynamic_cast<target_type>(x)
+Dynamic cast taban sınıftan türemiş sınıfa dönüşümü sağlar. O dönüşümün safe olup olmadığını kontrol eder.
+
+// WRONG
+void car_game(Car &rcar)
+{
+    // Runtime'da eğer r bir mercedes ise
+    // O mercedes ile ilgili işlem yapılacak. (sunroof açılsın)
+    //Sadece Mercedes class'ında open_sunroof fonksiyonu olduğunu varsayalım.
+    
+    rcar.start();
+    rcar.run();
+    Mercedes& mr = static_cast<Mercedes&>(rcar); // Not safe casts every Car object to Mercedes, even though it is not, use dynamic cast
+    rcar.stop();
+}
+
+// TRUE
+void car_game(Car *carptr)
+{
+    // Runtime'da eğer r bir mercedes ise
+    // O mercedes ile ilgili işlem yapılacak. (sunroof açılsın)
+    //Sadece Mercedes class'ında open_sunroof fonksiyonu olduğunu varsayalım.
+    
+    carptr->start();
+    carptr->run();
+    Mercedes* mr = dynamic_cast<Mercedes*>(carptr); // Safe, but this type of design shouldn't be done
+    
+    if(pm){
+        std::cout << "event mercedes!!!\n";
+        pm->open_sunroof();
+    }
+    carptr->stop();
+}
+
+int main()
+{
+    for(;;){
+        auto p = create_random_car();
+        car_game(*p);
+        (void)getchar();
+        delete p;    
+    }
+}
+==================
+#include <typeinfo>
+
+class Data{
+
+};
+
+int main()
+{
+    typeid(Data) //Returns typeinfo const reference
+    //////    
+    int x{};
+    typeid(x);
+    //////
+    type_info x;    // Default constructor yok, syntax error
+    //////
+    type_info x (typeid(Data)); // Copy constructor deleted, syntax error
+    //////
+    //type_info can only be created by typeid operator
+    int x{};
+    typeid(int) == typeid(x); // Returns true 
+    
+    
+    using namespace std;
+    
+    
+}
+
+typeid operatorü eğer inherited classlar üzerinde yapılıyorsa:
+1) Polymorphic tür değillerse, static olarak bakılır (yani Base ve Der'i karşılaştırırsan false)
+1) Polymorphic türse, dynamic olarak bakılır (yani Base ve Der'i karşılaştırırsan true)
+===========================================
+Generic Programming
+
+generic -> türden bağımsız
+
+Template types:
+
+function template
+class template
+variable template
+alias template
+------------------------------------
+27.Ders
+Video başlığı: classes 19: generic programming 2, type deductions in templates
+-----------------
+reference collapsing
+-----------------
+syntax:
+//Template parameters
+template <typename T, typename U> // T veya U yerine herhangi bir şey yazılabilir
+class Array{
+
+}
+
+template <typename T>
+T sum(T x, T y)
+{
+    return x + y;
+}
+
+
+template <class T> // Old
+
+vector<int> // template argument
+==================
+C++ dilinde normal koşullarda referansa referans olmaz
+Ancak tür çıkarımı uygulanan durumlarda olabilir.
+
+template <typename T>
+class TypeTeller;
+
+template <Typename T>
+void func(T &&x)
+{
+   TypeTeller y;  // Derleyicide hata veriyor, böylece compiler'ın T'yi neye dönüştürdüğünü görebiliyorsun. 
+}
+
+int main(){
+    int y = 10;
+    func(y);
+    // işleve gönderilen arguman olan ifadenin value category'si l-val ise T'nin çıkarımı Type& olarak yapılacak.
+    // &(argument) &&(parameter) ===> &
+    // &(argument) &(parameter) ===> &
+    // &&(argument) &(parameter) ===> &
+    // &&(argument) &&(parameter) ===> &&
+}
+
+// trailing return type / C++11
+
+template <typename T>
+auto func(T x) -> T // T return type
+{
+
+}
+
+template <typename T, typename U>
+auto sum(T x, U y) -> decltype(x + y) //decltype (x + y) return type
+{
+
+}
+
+// auto return type
+
+template <typename T, typename U>
+auto sum(T x, U y)
+{
+    return x * y;
+} 
+------------------------------------
+28.Ders
+Video başlığı: classes 20: generic programming 3, class templates 1
+-----------------
+auto return type:
+
+template<typename T, typename U>
+auto func(T x, U y)
+{
+    return x * y + 5;
+}
+==================
+
+fonksiyon şablonları ile 
+a) gerçek fonksiyonlar bir arada bulunabilir. Fonksiyon argümanı eğer gerçek fonksiyon parametresi ile exact match ise gerçek fonksiyon çağırılır.  
+b) başka fonksiyon şablonları
+
+b)
+template <typename T>
+void func(T x);
+
+template <typename T>
+void func(T a, T b);
+
+int main()
+{
+    func(10);
+    func(2.3, 5.6);
+}
+==================
+Kafa karıştırıcı olabilir:
+//partial ordering rules (More specific template function is selected)
+
+template <typename T>
+void func(T x)
+{
+    std::cout << "func T x typeof x is " << typeid(T).name << "\n";
+}
+
+template <typename T>
+void func(T* ptr)
+{
+    std::cout << "func T *ptr typeof T is " << typeid(T).name << "\n";
+}
+
+template <typename T>
+void func(T** ptr)
+{
+    std::cout << "func T** ptr typeof T is " << typeid(T).name << "\n";
+}
+
+int main()
+{
+    int x{};
+    func(&x); // void func(T* ptr) selected
+    
+    int y = 10;
+    int* ptr = &x;
+    
+    func(&ptr); // void func(T** ptr) selected
+}
+==================
+template <typename T>
+void func(T x) = delete;
+
+void func(inx x);
+
+int main()
+{
+    // func isimli öyle bir işlev olsun ki sadece int türden argümanla legal olarak çağrılabilsin
+    func(12);
+    func(12u); // error
+    func(1.2); // error
+    func(1.2f); // error
+}
+==================
+
+template <typename T>
+void func(T x)
+{
+    T::Neco * p; //Syntax error (compiler T::Neco değerini p ile çarp olarak algılıyor)
+    typename T::Neco *p; //How it's donne 
+}
+==================
+class templates
+
+//CTAD -> Constuctor'a bakarak T'nin çıkarımı yapılabiliyor
+template <typename T>
+class Neco{
+
+public:
+    Neco(T x);
+    T func(T x);
+    T& foo(T&);    
+private:
+    T mx;
+    T* p;
+};
+
+int main()
+{
+    
+}
+
+// atakan.h
+// Template classes must be implemented in header files
+template <typename T>
+class Data {
+public:
+    void func(T x);
+}
+
+// If you want to implement template class function outside header file
+template<typename T>
+void Data<T>::func(T x)
+{
+
+}
+------------------------------------
+29.Ders
+Video başlığı: classes 21: generic programming 4, class templates 2, Explicit (full) specialization, partial specialization, Perfect Forwarding, variadic templates and functions 1
+-----------------
+template instantiation
+template specialization
+-----------------
+
+// default template arguments
+
+template<typename T = int>
+class Data{
+    
+    Data()
+    {
+        std:cout << typeid(T).name << "\n";
+    }
+
+};
+
+int main(){
+
+    Data<double> dx;
+    Data<> dy;  // Will be Data<int>
+}
+
+===========
+
+template<typename T>
+class Data{};
+
+template<typename T, typename U = Data<T>> // Second parameter will be 
+class Myclass{};
+
+int main()
+{
+    Myclass<int> mx // Myclass<int, Data<int>>
+}
+
+===========
+
+template<size_t a = 10, size_t b = 20> // Second parameter will be 
+class Myclass{};
+
+int main()
+{
+    Myclass<7,9> m1;
+    Myclass<7> m2;
+    Myclass<> m3;
+}
+==================
+
+Explicit (full) specialization
+
+template<typename T>
+T Max(T x, T y){
+
+    return x > y ? x : y;
+}
+
+template<> // Artık const char* parametreli olarak çağırıldığında bu çağırılacak.
+const char *Max(const char *px, const char *py){
+
+    return strcmp(px, py) > 0 ? px : py;
+}
+
+int main()
+{
+    cout << Max(12,45) <<"\n";
+    
+    string s1{"enes"}, s2{"necati"};
+    std::cout << Max(s1, s2) << "\n";
+    
+    const char * c1 = "Zeynep";
+    const char * c2 = "Ayse";
+
+    std::cout << Max(c1, c2) << "\n"; // Ayse, Ayse yazar, çünkü burada adresleri karşılaştırıyoruz
+}
+
+partial specialization
+
+template<typename T>
+class Myclass
+{
+public:
+    Myclass()
+    {
+        std::cout << "primary template\n";
+    }
+};
+
+template<typename T>
+class Myclass<T*>
+{
+public:
+    Myclass()
+    {
+        std::cout << "partial specialization Myclass<T*>\n";
+    }
+};
+
+int main()
+{
+    Myclass<int> m1;
+    Myclass<int *> m2;
+    Myclass<const char *> m3;
+}
+==================
+Perfect Forwarding
+
+void func(const int&)
+{
+
+}
+
+void func(int&)
+{
+
+}
+
+void func(int&&)
+{
+
+}
+
+template<typename T>
+void foo(T &&x) //Forwarding reference
+{
+    func(std::forward<T>(x));   //Perfect forwarding
+}
+
+int main(){
+
+    int a{};
+    const int c{};
+
+    foo(12);
+    foo(a);
+    foo(c);
+}
+
+==================
+Variadic Template
+
+// template parameter pack
+template <typename ...Types>
+//void func(Types ...args) //Call by value
+//void func(Types &...args) //L value
+//void func(const Types &...args) // const L value
+void func(Types &&...args) Forwarding reference
+{
+    constexpr auto n1 = sizeof...(Types);   // parametre değişkeni sayısını verir
+    constexpr auto n2 = sizeof...(args);   // parametre değişkeni sayısını verir (Yukarıdaki ile aynı)
+    
+}
+
+int main()
+{
+    func(2, 2.3, 6.7f);
+    
+    int x{};
+    double dval{3.4};
+    string s{"yavuz"};
+    
+    func(x, dval, s);
+}
+
+------------------------------------
+30.Ders
+Video başlığı: classes 22: generic programming 5, variadic templates and functions 2, stl (Standard Template Library) 1
+-----------------
+-----------------
+Variadic Template cont.
+==================
+Recursive eksiltme tekniği
+
+template<typename T>
+T summer(T v)
+{
+    return v;
+}
+
+template<Typename T, typename ...Args>
+T summer(const T& first, const Args& ...args)
+{
+    std::cout << __FUNCSIG__ << '\n'; // Template'tan üretilen fonksiyonu yazar
+    
+    return first + summer(args...);
+}
+
+int main()
+{
+   std::cout << summer(10, 20, 30, 80, 17) << '\n';
+}
+==================
+template<typename ...Args>
+void print(const Args& ...args)
+{
+    int a [] = { ((std::cout << args, 0) << " ")... };
+}
+
+int main()
+{
+    print(23, 3.4, 8L)
+}
+==================
+//C++17
+compile time if
+
+template<typename T, typename ...Args>
+void print(const T &t, const Args& ...args)
+{
+    std::cout << t << "\n";
+
+    if constexpr(sizeof(args) != 0)
+        print(args...);
+}
+------------------------------------
+32.Ders
+Video başlığı: stl (Standard Template Library) 2, iterator, algorithm, iterator categories
+-----------------
+-----------------
+Iterator
+
+template<typename T, typename A = std::allocator<T>>
+class Vector
+{
+public:
+    class iterator
+    {
+    public:
+        T& operator*();
+        T *operator->();
+        void operator++();
+        void operator--();
+    };
+};
+
+using cont = std::list<int>;
+
+int main(){
+
+    using namespace std;
+
+    cont cx{1,5,7,9,12,3,4,5,6};
+    for(auto iter = cx.begin();iter != cx.end(); ++iter)
+    {
+        cout << *iter << " ";
+    }
+}
+
+iterator kategorisi iterator interface'ini belirliyor. (O iterator ile ne yapabiliriz, ++, -- gibi)
+input iterator
+copy constuctible
+
+++it it--
+*it it->    (R value)
+it1==it2    it1 !? it2
+
+
+output iterator
+copy constuctible
+++it it++
+*it it-> (L value)
+
+
+
+forward iterator
+copy constuctible, default constructible
+++it it++
+*it it->  (l value, r value)
+it1 == it2  it1 != it2
+
+
+bidirectional iterator
+copy constuctible, default constructible
+++it it++   --it it--
+*it it->  (l value, r value)
+it1 == it2  it1 != it2
+
+
+random_access_iterator
+copy constuctible, default constructible
+++it it++   --it it--
+*it it->  (l value, r value)
+it1 == it2  it1 != it2
+it + n  n + it  it - n...
+==================
+Algorithm
+
+#include <algorithm> // %95'i burada
+#include <numeric>  //%5'i burada
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
