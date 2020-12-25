@@ -1,6 +1,6 @@
 /*
 ------------------------------------
-33.Ders
+34.Ders
 Video başlığı: stl (Standard Template Library) 4, iterator manipulation functions cont., ostream_iterators, lambda expressions
 ------------------------------------
 IIFE

@@ -1,6 +1,6 @@
 /*
 ------------------------------------
-34.Ders
+35.Ders
 Video başlığı:stl (Standard Template Library) 5, lambda expressions 2, linear search algorithms, erase operations, replace operations, container classes 1
 ------------------------------------
 IIFE
