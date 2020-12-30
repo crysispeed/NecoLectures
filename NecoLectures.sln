@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecoExamples", "NecoExamples\NecoExamples.vcxproj", "{1966D126-6F46-4A72-9CB3-9616530EE49D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson33", "Lesson33\Lesson33.vcxproj", "{97C639DE-A864-446F-8A3B-2CB8C1F8F172}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson32", "Lesson32\Lesson32.vcxproj", "{B98B55F0-E753-44AA-A54D-0E62DBCEEAF4}"
@@ -12,16 +10,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson35", "Lesson35\Lesson
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson36", "Lesson36\Lesson36.vcxproj", "{7BA25160-2087-4DBE-9A3C-EEDEE2A2631D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson37", "Lesson37\Lesson37.vcxproj", "{69536DF6-2E28-41EF-96BD-0C4DB4366100}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecoUtility", "NecoUtility\NecoUtility.vcxproj", "{42492CAA-372F-401B-84B8-619B78FAE838}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1966D126-6F46-4A72-9CB3-9616530EE49D}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1966D126-6F46-4A72-9CB3-9616530EE49D}.Debug|Any CPU.Build.0 = Debug|Win32
-		{1966D126-6F46-4A72-9CB3-9616530EE49D}.Release|Any CPU.ActiveCfg = Release|Win32
-		{1966D126-6F46-4A72-9CB3-9616530EE49D}.Release|Any CPU.Build.0 = Release|Win32
 		{97C639DE-A864-446F-8A3B-2CB8C1F8F172}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{97C639DE-A864-446F-8A3B-2CB8C1F8F172}.Debug|Any CPU.Build.0 = Debug|Win32
 		{97C639DE-A864-446F-8A3B-2CB8C1F8F172}.Release|Any CPU.ActiveCfg = Release|Win32
@@ -42,5 +40,13 @@ Global
 		{7BA25160-2087-4DBE-9A3C-EEDEE2A2631D}.Debug|Any CPU.Build.0 = Debug|Win32
 		{7BA25160-2087-4DBE-9A3C-EEDEE2A2631D}.Release|Any CPU.ActiveCfg = Release|Win32
 		{7BA25160-2087-4DBE-9A3C-EEDEE2A2631D}.Release|Any CPU.Build.0 = Release|Win32
+		{69536DF6-2E28-41EF-96BD-0C4DB4366100}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{69536DF6-2E28-41EF-96BD-0C4DB4366100}.Debug|Any CPU.Build.0 = Debug|Win32
+		{69536DF6-2E28-41EF-96BD-0C4DB4366100}.Release|Any CPU.ActiveCfg = Release|Win32
+		{69536DF6-2E28-41EF-96BD-0C4DB4366100}.Release|Any CPU.Build.0 = Release|Win32
+		{42492CAA-372F-401B-84B8-619B78FAE838}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{42492CAA-372F-401B-84B8-619B78FAE838}.Debug|Any CPU.Build.0 = Debug|Win32
+		{42492CAA-372F-401B-84B8-619B78FAE838}.Release|Any CPU.ActiveCfg = Release|Win32
+		{42492CAA-372F-401B-84B8-619B78FAE838}.Release|Any CPU.Build.0 = Release|Win32
 	EndGlobalSection
 EndGlobal
