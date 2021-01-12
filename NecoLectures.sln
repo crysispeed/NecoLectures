@@ -14,6 +14,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson37", "Lesson37\Lesson
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NecoUtility", "NecoUtility\NecoUtility.vcxproj", "{42492CAA-372F-401B-84B8-619B78FAE838}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson38", "Lesson38\Lesson38.vcxproj", "{05B48EED-0E63-4DC0-AA19-0C184C60D56E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson39", "Lesson39\Lesson39.vcxproj", "{9DEFE3B5-5330-4F0D-B3BD-3555C831A47F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +52,13 @@ Global
 		{42492CAA-372F-401B-84B8-619B78FAE838}.Debug|Any CPU.Build.0 = Debug|Win32
 		{42492CAA-372F-401B-84B8-619B78FAE838}.Release|Any CPU.ActiveCfg = Release|Win32
 		{42492CAA-372F-401B-84B8-619B78FAE838}.Release|Any CPU.Build.0 = Release|Win32
+		{05B48EED-0E63-4DC0-AA19-0C184C60D56E}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{05B48EED-0E63-4DC0-AA19-0C184C60D56E}.Debug|Any CPU.Build.0 = Debug|Win32
+		{05B48EED-0E63-4DC0-AA19-0C184C60D56E}.Release|Any CPU.ActiveCfg = Release|Win32
+		{05B48EED-0E63-4DC0-AA19-0C184C60D56E}.Release|Any CPU.Build.0 = Release|Win32
+		{9DEFE3B5-5330-4F0D-B3BD-3555C831A47F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9DEFE3B5-5330-4F0D-B3BD-3555C831A47F}.Debug|Any CPU.Build.0 = Debug|Win32
+		{9DEFE3B5-5330-4F0D-B3BD-3555C831A47F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9DEFE3B5-5330-4F0D-B3BD-3555C831A47F}.Release|Any CPU.Build.0 = Release|Win32
 	EndGlobalSection
 EndGlobal

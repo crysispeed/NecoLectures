@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../.." />
+    <content url="file://$MODULE_DIR$/../..">
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson32/Debug/Lesson32.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson35/Debug/Lesson35.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson36/Debug/Lesson36.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson37/Debug/Lesson37.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson38/Debug/Lesson38.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson38/Release/Lesson38.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson39/Debug/Lesson39.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson39/Release/Lesson39.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Lesson39/Release/NecoUtility.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NecoUtility/Debug/NecoUtility.tlog" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NecoUtility/Release/NecoUtility.tlog" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
