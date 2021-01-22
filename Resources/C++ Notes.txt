@@ -1,11 +1,13 @@
-﻿2.Ders
+﻿Lesson 2
+Title: auto keyword 1, L - R values
+-----------------
 array decay (array to pointer conversion)
 type deduction
     - auto
     - decltype
     
 generic programming paradigm
-Templates (C++) (Compile Time'da compiler'a kod yazdırma)
+Templates (C++) (Compiler writes code for us in compile-time)
 
 L value reference
 R value reference
@@ -14,25 +16,30 @@ R value reference
 value category
 const correctness
 
-Kitap: Concurrency in Action
+Book: Concurrency in Action
 ------------------------------------
-3.Ders
+Lesson 3
+Title: auto keyword 2, default arguments
+-----------------
 conventions
 Acronym
     -ODR (One definition rule)
-    -ALD
-    -SFINAE
-variadic function (3 nokta parametresi)
+    -ADL (Argument Dependent lookup)
+    -SFINAE (Substitution Failure Is Not An Error)
+variadic function (3 dot parameter)
 
-Early Binding
-Static binding
+Early Binding (Static binding)
+As the name indicates, compiler (or linker) directly associate an address to the function call. 
+It replaces the call with a machine language instruction that tells the mainframe to leap to the address of the function.
 
-Late binding
-Dynamic binding
-function signature
+Late binding (Dynamic binding)
+In this, the compiler adds code that identifies the kind of object at runtime then matches the call with the right function definition. 
+This can be achieved by declaring a virtual function.
 
 ------------------------------------
-4.Ders
+Lesson 4
+Title: extern, enum classes 1, complete, incomplete type
+-----------------
 Function overload resolution
 
 1. Step
@@ -53,24 +60,29 @@ const_cast
 reinterpret_cast
 dynamic_cast
 ------------------------------------
-5.Ders
+Lesson 5 
+Title: enum classes 2, classes 1
+-----------------
 auto x = expr;
 auto &x = expr;
-auto &%x = expr; // forwarding reference / universal reference (İleride)
+auto &&x = expr; // forwarding reference / universal reference (Future topic)
 
 unevaluated context
 extern "C"
 inline expansion
 -------------
-C Tekrarı
+C Review
 external linkage
 internal linkage
-extern bildirimleri
+extern directives
 static in C
 complete type
 incomplete type
 ------------------------------------
-6.Ders
+Lesson 6 
+Title: classes 2: this, name lookup in class member function, const member function, mutable keyword
+-----------------
+
 Class definition
 class tag
 class members
@@ -89,19 +101,28 @@ class Neco
    typedef unsigned char Byte;    // member type
 };
 
+==================
+
 access control
     public
     private
     protected
-    
+   
 public ögeler -> Tüm kodlara açık
 private ögeler -> client kodlara kapalı, sınıfın kendi kodlarına açık
 protected -> private ile neredeyse aynı, inherited class'lar da görebilir
 
-Erişim kontrolleri sıralaması
+EN: 
+public items -> accessible to all codes
+private items -> Only accessible to class members. Not accessible outside class
+protected items -> Same as private, but classes that inherited this class can use them too
+
+Access control ranking
     1) Name lookup
     2) Context control
     3) Access control
+    
+==================
 
 C++
 namespace scope
@@ -111,10 +132,10 @@ function prototype scope
 function scope
 
 Scope resolution opeator ---> :: (unary or binary)
-unary-> ::g (Direkt global scope'ta g variable'ına bakar, diğer scope'ları gözardı eder.)
+unary-> ::g (Searches g in global scope. Other scopes are ignored)
 ------------------------------------
-7.Ders
-Video başlığı: classes 2: this, name lookup in class member function, const member function, mutable keyword
+Lesson 7
+Title: classes 2: this, name lookup in class member function, const member function, mutable keyword
 -----------------
 Problem Domain
 Fluent API
@@ -124,29 +145,47 @@ Const member function:
 2. Bir sınıfın const üye fonksiyonu sınıfın const olmayan üye fonksiyonunu çağıramaz.
 3. Bir const sınıf nesnesi için yalnızca sınıfın const üye işlevlerini çağırabilirsiniz.
 
+EN:
+1. const member function can use non-static class data elements for read-only purposes.
+2. A const member function cannot call a non-const member function.
+3. You can only use const member functions in a const class object.
+
 class Data{
     public:
         void foo()const; // const member function (Amacı, adresini aldığı nesneyi salt okuma erişimi olarak kullanma)
+                         // EN: const member function (Main purpose here is using the this class object for using read-only purposes.)
         void func(); // non-const member function
     private:
     int mx;
 }
------------------
+
+==================
+
 mutable keyword: const üye fonksiyonların içinde class member variable'ını değiştirmesine olanak sağlar.
------------------
+EN:
+mutable keyword: You can change member variables in a const member function.
+
+==================
+
 this keyword: fonksiyon içinde kullanıldığında fonksiyonu çağıran objenin adresini tutar.
+EN:
+this keyword: When used in the function, holds the caller object's address.
 ------------------------------------
-8.Ders
-Video başlığı: classes 3: constexpr keyword, constexpr function, headers and implementation files, inline functions, ODR(One Definition Rule), deleted functions, constuctor and destructor 1
+Lesson 8
+Title: classes 3: constexpr keyword, constexpr function, headers and implementation files, inline functions, ODR(One Definition Rule), deleted functions, constuctor and destructor 1
 -----------------
-constexpr function: bir constexpr fonksiyonuna çağrı yapıldığında eğer tüm parametrelerine gönderilecek argüman olan ifadeler "const expression" ise böyle bir işlevin geri dönüş değeri compile time'da elde ediliyor
-ve fonksiyona yapılan çağrı ifadesi de bu durum...
+constexpr function: Bir constexpr fonksiyonuna çağrı yapıldığında eğer tüm parametrelerine gönderilecek argüman olan ifadeler "const expression" ise 
+böyle bir işlevin geri dönüş değeri compile time'da elde ediliyor.
 
-constexpr int sum_square(int a, int b){
+EN:
+constexpr function: If a constexpr function is called and if all of the arguments are const expressions, return value is determined in compile-time.
 
-} 
+constexpr int sum_square(int a, int b)
+{
 
-1) bir fonksiyonun constexpr olabilmesi için umesi gereken koşullar:
+}
+
+1) bir fonksiyonun constexpr olabilmesi için uyması gereken koşullar:
     a) işlevin tüm parametreleri "literal type" olmalı
     b) işlevin geri dönüş değeri türü yine literal type olmak zorunda
     c) fonksiyonun tanımı içinde
@@ -155,74 +194,186 @@ constexpr int sum_square(int a, int b){
         iii) global bir değişkeni kullanamaz
     d) virtual function olamaz
     e) ilk değer verilmemiş bir değişken verilemez
+    
+EN:
+1) The conditions that a function must meet in order to be constexpr:
+    a) All parameters must be "literal type"
+    b) return value of this constexpr function must be also a "literal type"
+    c) In function definition
+        i) static variables cannot be defined
+        ii) thread_local variable cannot be defined
+        iii) global variable cannot be used
+    d) virtual function olamaz
+    e) ilk değer verilmemiş bir değişken verilemez
+    
+==================
 
-C++ dilinde başlık dosyalarında kod olması:
-1) inline fonksiyon
-2) constexpr fonksiyonların tanımları
-3) template kodlar
+In C++, there can be definition codes in header files if the function is a(n):
+1) inline function
+2) Definition of a constexpr function
+3) template code
     - function template
     - class template
     - variable template (C++ 14)
     - ailas template
-4) inline variables (C++ 17)
+4) inline variable (C++ 17)
+
+==================
 
 inline functions
 - Fonksiyonun yerine compile edilmiş kodu yerleştir. Optimizasyon sağlar. (C'deki macrolar)
+
+EN:
+inline functions
+- Puts the compiled function code to the place that function is called. Skips the function jump and hence, provides optimization
+
+From geeksforgeeks:
+When the program executes the function call instruction the CPU stores the memory address of the instruction following the function call, 
+copies the arguments of the function on the stack and finally transfers control to the specified function. 
+The CPU then executes the function code, stores the function return value in a predefined memory location/register and returns control to the calling function. 
+This can become overhead if the execution time of function is less than the switching time from the caller function to called function (callee). 
+For functions that are large and/or perform complex tasks, the overhead of the function call is usually insignificant compared to the amount of time the function takes to run. 
+However, for small, commonly-used functions, the time needed to make the function call is often a lot more than the time needed to actually execute the function’s code. 
+This overhead occurs for small functions because execution time of small function is less than the switching time.
+
+C++ provides an inline functions to reduce the function call overhead. 
+Inline function is a function that is expanded in line when it is called. 
+When the inline function is called whole code of the inline function gets inserted or substituted at the point of inline function call. 
+This substitution is performed by the C++ compiler at compile time. Inline function may increase efficiency if it is small.
+
+==================
 
 ODR (One definition rule):
 Fonksiyonların, sınıfların, değişkenlerin tek bir tanımı olmak zorundadır.
 Bunlar birden fazla kez bildirilebilir ancak bir kez tanımlanmak zorundadır.
 
+EN:
+Functions, classes and variables must have an only one definition.
+These can be declared multiple times but it must be defined only once.
 
+==================
 
------------------
 Bit field member
+
+// Space optimized representation of the date 
+struct date { 
+    // d has value between 1 and 31, so 5 bits 
+    // are sufficient 
+    unsigned int d : 5; 
+  
+    // m has value between 1 and 12, so 4 bits 
+    // are sufficient 
+    unsigned int m : 4; 
+  
+    unsigned int y; 
+}; 
 ------------------------------------
-9.Ders
-Video başlığı: classes 4: constuctor and destructor 2, variable lifetimes (tekrar), initializations (Default, value), special member functions 1
+Lesson 9
+Title: classes 4: constuctor and destructor 2, variable lifetimes (tekrar), initializations (Default, value), special member functions 1
 -----------------
 destructor
 default constructor: Parametresi olmayan ya da tüm parametreleri default argüman olan constructor'lardır.
-to default a special member function
+EN:
+default constructor: Constructors that have no parameters or all of the arguments are default argument.
 
 A ax; // default initialization
 int ival; // default initialization
------------------
 
-special member functions: (Compiler tarafından kodu yazılabilen fontksiyonlar)
+==================
+
+special member functions: (Codes that can be written by compiler)
     - default ctor
     - copy ctor
     - move ctor  // C++11
-    - destructor  
-    - copy assignment  
+    - destructor
+    - copy assignment
     - move assignment  // C++11
-    
 ------------------------------------
-10.Ders
-Video başlığı: classes 5: constuctor and destructor 3, constructor initializer list, copy constructor 1
+Lesson 10
+Title: classes 5: constuctor and destructor 3, constructor initializer list, copy constructor 1
 -----------------
-RAII
+RAII (Resource acquisition is initialization)
+
+Wiki:
+Resource acquisition is initialization (RAII) is a programming idiom used in several object-oriented, statically-typed programming languages to describe a particular language behavior.
+In RAII, holding a resource is a class invariant, and is tied to object lifetime: 
+ - resource allocation (or acquisition) is done during object creation (specifically initialization), by the constructor, 
+ - while resource deallocation (release) is done during object destruction (specifically finalization), by the destructor. 
+In other words, resource acquisition must succeed for initialization to succeed. 
+Thus the resource is guaranteed to be held between when initialization finishes and finalization starts (holding the resources is a class invariant), 
+and to be held only when the object is alive. Thus if there are no object leaks, there are no resource leaks.
+
+The following C++11 example demonstrates usage of RAII for file access and mutex locking:
+
+#include <fstream>
+#include <iostream>
+#include <mutex>
+#include <stdexcept>
+#include <string>
+
+void WriteToFile(const std::string& message) {
+  // |mutex| is to protect access to |file| (which is shared across threads).
+  static std::mutex mutex;
+
+  // Lock |mutex| before accessing |file|.
+  std::lock_guard<std::mutex> lock(mutex);
+
+  // Try to open file.
+  std::ofstream file("example.txt");
+  if (!file.is_open()) {
+    throw std::runtime_error("unable to open file");
+  }
+
+  // Write |message| to |file|.
+  file << message << std::endl;
+
+  // |file| will be closed first when leaving scope (regardless of exception)
+  // mutex will be unlocked second (from lock destructor) when leaving scope
+  // (regardless of exception).
+}
+
+This code is exception-safe because C++ guarantees that all stack objects are destroyed at the end of the enclosing scope, known as stack unwinding. 
+The destructors of both the lock and file objects are therefore guaranteed to be called when returning from the function, whether an exception has been thrown or not.
+Local variables allow easy management of multiple resources within a single function: 
+they are destroyed in the reverse order of their construction, and an object is destroyed only if fully constructed—that is, if no exception propagates from its constructor.
+Using RAII greatly simplifies resource management, reduces overall code size and helps ensure program correctness. 
+RAII is therefore recommended by industry-standard guidelines, and most of the C++ standard library follows the idiom.
 -----------------
 Constructor/Member initializer list
 
-public class Myclass{
+public class Myclass
+{
 public:
     Myclass();
 private:
     int mx, my;
 };
 
-Myclass::Myclass() : mx(0) /* mx {0} */, my(10) /* my {10} */
+Myclass::Myclass() : mx(0) /* same as mx {0} */, my(10) /* same as  my {10} */
 {
 
 }
 ------------------------------------------------------------------------
-EXTRA: Gameplay Programming Patterns
+EXTRA: Gameplay Programming Patterns (Digital Dragons Conference 2020) https://www.youtube.com/watch?v=OPZs6V8EuHI
+
 Data oriented design
+Data-Oriented Programming approaches coding in a slightly different way. 
+Instead of objects, everything is data and everything can be acted upon. 
+This separates the functionality and data. They no longer are intertwined by a specific rule set. 
+In DOP your functions are general purpose and are applied to large chunks of data. 
+Ideally, you would structure the data as closely to the output data as possible to ensure the least amount of effort is done by the function itself.
+
+Good tutorial for Data Oriented Design:
+http://knight666.com/blog/tutorial-a-practical-example-of-data-oriented-design/#:~:text=Data-oriented%20design%20(DOD),this%20is%20our%20game%20world.
+
+==================
+
 "Once per frame" policy
+
+==================
 ------------------------------------------------------------------------
-11.Ders
-Video başlığı: classes 6: special member functions 2, copy constructor 2, copy assignment, move constructor 1
+Lesson 11
+Title: classes 6: special member functions 2, copy constructor 2, copy assignment, move constructor 1
 -----------------
 Big 3: (Old C++)
 destructor
