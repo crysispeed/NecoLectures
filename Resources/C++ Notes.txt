@@ -393,7 +393,7 @@ x = y; =====> x.operator=(y);
 class Neco{
 
 public:
-    Neco &operator=(const Neco &other) // Compiler'ın yazdığı copy assignment örneği
+    Neco &operator=(const Neco &other) // Example for compile-written copy assignment
     {
         ma = other.ma;
         mb = other.mb;
@@ -409,13 +409,13 @@ private:
 }
 
 move semantics:
-Myclass(const Myclass &); // Copy constructor (L value ile çağırılma)
-Myclass(Myclass &&);    // Move constructor (R value ile çağırılma)
+Myclass(const Myclass &); // Copy constructor (Call by L value)
+Myclass(Myclass &&);    // Move constructor (Call by R value)
 ------------------------------------
 11.Ders
 Video başlığı: classes 7: special member functions 3, move constructor 2, move assignment, conversion constructor, explicit keyword, temporary objects
 -----------------
-copy swap idiom (exception handling konusunda göreceğiz)
+copy swap idiom (look to the exception handling)
 life extension
 ------------------------------------
 12.Ders

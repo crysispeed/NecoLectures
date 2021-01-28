@@ -1,7 +1,7 @@
 /*
 ------------------------------------
 Lesson 43
-Title: stl (Standard Template Library) 13, sorted range algorithms, [[nodiscard]] attribute, Member function pointers, std::invoke, dynamic life objects and smart pointers
+Title: stl (Standard Template Library) 13, sorted range algorithms, [[nodiscard]] attribute, Member function pointers, std::invoke, dynamic life objects and smart pointers 1
 -----------------
 Sorted range algorithms
 Algorithms that can executed on sorted containers.

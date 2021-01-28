@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson42", "Lesson42\Lesson
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson43", "Lesson43\Lesson43.vcxproj", "{E096CB03-06E4-4DAB-8B28-BBF483CA9B0B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lesson44", "Lesson44\Lesson44.vcxproj", "{66BC49CA-DD7D-4728-9820-2D8B97C218C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,5 +86,9 @@ Global
 		{E096CB03-06E4-4DAB-8B28-BBF483CA9B0B}.Debug|Any CPU.Build.0 = Debug|Win32
 		{E096CB03-06E4-4DAB-8B28-BBF483CA9B0B}.Release|Any CPU.ActiveCfg = Release|Win32
 		{E096CB03-06E4-4DAB-8B28-BBF483CA9B0B}.Release|Any CPU.Build.0 = Release|Win32
+		{66BC49CA-DD7D-4728-9820-2D8B97C218C8}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{66BC49CA-DD7D-4728-9820-2D8B97C218C8}.Debug|Any CPU.Build.0 = Debug|Win32
+		{66BC49CA-DD7D-4728-9820-2D8B97C218C8}.Release|Any CPU.ActiveCfg = Release|Win32
+		{66BC49CA-DD7D-4728-9820-2D8B97C218C8}.Release|Any CPU.Build.0 = Release|Win32
 	EndGlobalSection
 EndGlobal
