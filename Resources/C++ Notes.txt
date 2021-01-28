@@ -715,8 +715,8 @@ int a = x+++y; // Aşağıdaki gibi ele alınır (Compiler en önce en uzun oper
 
 int a = x++ + y;
 ------------------------------------
-23.Ders
-Video başlığı: classes 19: inheritance 5, multiple inheritance 2, virtual inheritance, exception handling 1
+24.Ders
+Video başlığı: classes 20: inheritance 5, multiple inheritance 2, virtual inheritance, exception handling 1
 -----------------
 Diamond formation
 DDD Dreaded Diamond of Derivation
@@ -745,8 +745,8 @@ hatayı yakaladığımda ne yapacağım?
     terminative way (Direkt kapat)
     resumptive way - exception safety (Program çalışmaya devam etsin)
 ------------------------------------
-24.Ders
-Video başlığı: classes 19: exception handling 2
+25.Ders
+Video başlığı: classes 21: exception handling 2
 -----------------
 Copy elision
 exception safe
@@ -788,8 +788,8 @@ catch(const Myexception &x){
 
 }
 ------------------------------------
-25.Ders
-Video başlığı: classes 19: exception handling 3, exception handling tekrar, creating classes for exceptions, constructors and exceptions
+26.Ders
+Video başlığı: classes 22: exception handling 3, exception handling tekrar, creating classes for exceptions, constructors and exceptions
 -----------------
 class invariants
 unevaluated context
@@ -875,8 +875,8 @@ exception guarantees
     - Hata gönderilirse kendi yakalayıp işini görecek.
 
 ------------------------------------
-26.Ders
-Video başlığı: classes 19: exception handling 4, function try block, Runtime Type Identification, generic programming 1
+27.Ders
+Video başlığı: classes 23: exception handling 4, function try block, Runtime Type Identification, generic programming 1
 -----------------
 RTTI (Runtime Type Identification/Information)
 unevaluated context
@@ -1003,8 +1003,8 @@ class template
 variable template
 alias template
 ------------------------------------
-27.Ders
-Video başlığı: classes 19: generic programming 2, type deductions in templates
+28.Ders
+Video başlığı: classes 24: generic programming 2, type deductions in templates
 -----------------
 reference collapsing
 -----------------
@@ -1070,8 +1070,8 @@ auto sum(T x, U y)
     return x * y;
 } 
 ------------------------------------
-28.Ders
-Video başlığı: classes 20: generic programming 3, class templates 1
+29.Ders
+Video başlığı: classes 25: generic programming 3, class templates 1
 -----------------
 auto return type:
 
@@ -1188,8 +1188,8 @@ void Data<T>::func(T x)
 
 }
 ------------------------------------
-29.Ders
-Video başlığı: classes 21: generic programming 4, class templates 2, Explicit (full) specialization, partial specialization, Perfect Forwarding, variadic templates and functions 1
+30.Ders
+Video başlığı: classes 26: generic programming 4, class templates 2, Explicit (full) specialization, partial specialization, Perfect Forwarding, variadic templates and functions 1
 -----------------
 template instantiation
 template specialization
@@ -1355,8 +1355,8 @@ int main()
 }
 
 ------------------------------------
-30.Ders
-Video başlığı: classes 22: generic programming 5, variadic templates and functions 2, stl (Standard Template Library) 1
+31.Ders
+Video başlığı: classes 27: generic programming 5, variadic templates and functions 2, stl (Standard Template Library) 1
 -----------------
 -----------------
 Variadic Template cont.
