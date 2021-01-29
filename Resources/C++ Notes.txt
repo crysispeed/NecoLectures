@@ -412,17 +412,95 @@ move semantics:
 Myclass(const Myclass &); // Copy constructor (Call by L value)
 Myclass(Myclass &&);    // Move constructor (Call by R value)
 ------------------------------------
-11.Ders
-Video başlığı: classes 7: special member functions 3, move constructor 2, move assignment, conversion constructor, explicit keyword, temporary objects
+Lesson 12
+Title: classes 7: special member functions 3, move constructor 2, move assignment, conversion constructor, explicit keyword, temporary objects
 -----------------
 copy swap idiom (look to the exception handling)
 life extension
 ------------------------------------
-12.Ders
-Video başlığı: classes 8: Copy elision(Elimination), operator overloading 1
+Lesson 13
+Title: classes 8: Copy elision(Elimination), operator overloading 1
 -----------------
+https://www.fluentcpp.com/2016/11/28/return-value-optimizations/
+
 RVO: Return Value Optimization
+For example, consider the following function returning by value:
+
+T f()
+{
+    ....
+    return T(constructor arguments);
+}
+With, at call site:
+
+T t = f();
+Theoretically, there could be 3 objects of type T created here:
+
+the object constructed inside f in the return statement (which happens to be a temporary because it does not have a name),
+the temporary object returned by f, copied from the one above,
+the named object t, copied from the one above.
+The RVO lets the compiler remove the two temporaries by directly initializing t with the constructor arguments passed inside the body of f.
+
+EDIT: Note that the RVO can still apply even when the function has several return statements, 
+as long as the returned objects are created on the return statements (thank you Rainer for pointing this out):
+
+T f()
+{
+    if (....)
+    {
+        return T(....);
+    }
+    else
+    {
+        return T(....);
+    }
+}
+
+But for the RVO to be applied, the returned object has to be constructed on a return statement. Therefore this object does not have a name.
+===========
 NRVO: Named Return Value Optimization
+
+The NRVO (Named-RVO) goes one step further: 
+it can remove the intermediary objects even if the returned object has a name and is therefore not constructed on the return statement. 
+So this object can be constructed before the return statement, like in the following example:
+
+T f()
+{
+    T result(....);
+    ....
+    return result;
+}
+
+But, like with the RVO, the function still needs to return a unique object (which is the case on the above example), 
+so that the compiler can determine which object inside of f it has to construct at the memory location of t (outside of f).
+
+For example, the NRVO can still be applied in the following case:
+
+T f()
+{
+    T result(....);
+    if (....)
+    {
+        return result;
+    }
+    ....
+    return result;
+}
+because only one object, result, can be returned from the function.
+
+Note though that compilers have different optimization capabilities, and there is no guarantee that the above optimizations will be applied 
+(although this might be enforced in a future version of the standard for some cases). 
+As a general rule, virtually all compilers apply RVO, and NRVO is applied by most compilers where the function is not too complex (and this varies from compiler to compiler).
+
+But as a developer, you can always try to facilitate RVO and NRVO by returning only one object from all the return paths of your functions, 
+and by limiting the complexity in the structure of your functions.
+
+This will avoid incurring performance costs when returning by value from a function, thus letting you benefit from better code clarity and expressiveness.
+
+The common idea of these two optimizations is to allow the compiler to use the memory space of this object t, 
+which is outside the function, to directly construct the object being initialized inside the function and that is returned from it. 
+This effectively removes the need for copying intermediary objects.
+
 -----------------
 operator functions
     global operator function
@@ -453,33 +531,78 @@ Operator overloading kuralları:
     .* operator
     typeid operator
 
-4.1 bazı operatörler global operatör fonksiyonu olarak yüklenemezler.
+4. bazı operatörler global operatör fonksiyonu olarak yüklenemezler.
     [] köşeli parantez op.
     -> ok operatörü
     fonksiyon çağrı operatörü
-4. Çağırılan operatör fonksiyonu, sınıfın statik üye fonksiyonu olamaz.
+5. Çağırılan operatör fonksiyonu, sınıfın statik üye fonksiyonu olamaz.
     global ya da non-static member function
 
-5. İsimleri operator anahtar sözcüğü ile oluşturulur.
+6. İsimleri operator anahtar sözcüğü ile oluşturulur.
     operator+
     operator>
     operator->
     operator++
     operator=
 
-6. Biri hariç (fonksiyon çağrı operatörü) varsayılan argüman alamazlar.
+7. Biri hariç (fonksiyon çağrı operatörü) varsayılan argüman alamazlar.
 
-7. Operatörlerin arity'si (operand sayısı) değiştirilemez.
+8. Operatörlerin arity'si (operand sayısı) değiştirilemez.
 unary operatorler unary olarak
 binary operatorler binary olarak
-8. Tüm operatör fonksiyonları isimleri ile çağırılabilir.
-9. Operatör öncelik seviyesi ve operatör öncelik yönü değiştirilemez.
------------------
-a + b toplama operatörü
-+x işaret operatörü (Sign operator)
+9. Tüm operatör fonksiyonları isimleri ile çağırılabilir (Eg. operator=()).
+10. Operatör öncelik seviyesi ve operatör öncelik yönü değiştirilemez.
 
-a - b çıkarma operatörü
--x işaret operatörü (Sign operator)
+EN:
+Operator overloading rules:
+
+1. Non-existing operator cannot be overloaded. (Eg. @)
+
+2. Primitive türler için kullanılamaz.
+2. Cannot be used for primitive types.
+
+3. Some operators cannot be overloaded:
+    - sizeof
+    - ternary operator (a ? b : c)
+    - . (dot / member selection)
+    - :: (scope resolution operator)
+    - .* operator
+    - typeid operator
+
+4 Some operators cannot be overloaded as global funtions.
+    [] square bracket operator
+    -> arrow operator
+    fonksiyon çağrı operatörü
+5. Çağırılan operatör fonksiyonu, sınıfın statik üye fonksiyonu olamaz.
+    global ya da non-static member function
+5. Called operator function cannot be the static member function.
+    global or non-static member function
+
+6. overloaded operator names must be start with "operator".
+    operator+
+    operator>
+    operator->
+    operator++
+    operator=
+
+7. Excluding function call operator, overloaded operators cannot have default arguments.
+
+8. Operatörlerin arity'si (operand sayısı) değiştirilemez.
+unary operatorler unary olarak
+binary operatorler binary olarak
+
+8. Arity (number of operands) cannot be changed.
+Unary operators have unary 
+binary operators have binary number of operands.
+
+9. All operator function can be called by their names (Eg. operator=()).
+10. Operator priority level or operator priority direction cannot be changed.
+-----------------
+a + b addition operator
++x (Sign operator)
+
+a - b substraction operator
+-x (Sign operator)
 
 &x address of
 x & y bitwise and
@@ -488,8 +611,8 @@ x & y bitwise and
 x * y multiplication
 
 ------------------------------------
-13.Ders
-Video başlığı: classes 9: Friend Declaration, operator overloading 2 (arithmetic operators, special operators ([], *))
+Lesson 14
+Title: classes 9: Friend Declaration, operator overloading 2 (arithmetic operators, special operators ([], *))
 -----------------
 ++x ==> L value expression
 --y ==> L value expression
@@ -513,19 +636,19 @@ operator ++(Neco&);
 operator ++(Neco&, int); // Postfix
 
 ------------------------------------
-14.Ders
-Video başlığı: classes 10: operator overloading 3 (special operators (*, ->, (), type-cast)), static variables and static member functions 1
+Lesson 15
+Title: classes 10: operator overloading 3 (special operators (*, ->, (), type-cast)), static variables and static member functions 1
 -----------------
 standard conversion
 user-defined conversion
     conversion ctor
     type-cast
 ------------------------------------
-15.Ders
-Video başlığı: classes 11: static variables and static member functions 2, singleton design pattern, nested member types 1
+Lesson 16
+Title: classes 11: static variables and static member functions 2, singleton design pattern, nested member types 1
 ------------------------------------
-16.Ders
-Video başlığı: classes 12: nested member types 2, including header files (pimpl idiom), composition, kamera düştü :D, ctor - dtor tekrar
+Lesson 17
+Title: classes 12: nested member types 2, including header files (pimpl idiom), composition, kamera düştü :D, ctor - dtor tekrar
 -----------------
 pimpl idiom
 pointer implementation
@@ -543,8 +666,8 @@ inheritance
 Eğer sınıfınızın def. ctor'u derleyici tarafından default edilirse
 derleyicinin yazdığı defalut ctor veri elemanlarını default init eder (çöp değer ile başlar). Eğer class'ın içinde başka class varsa onun default ctor'u çağırılır.
 ------------------------------------
-17.Ders
-Video başlığı: classes 13: composition 2 (example - stack implementation), templates göndermesi, namespaces, using keyword, ADL (Argument Dependant Lookup)
+Lesson 18
+Title: classes 13: composition 2 (example - stack implementation), templates göndermesi, namespaces, using keyword, ADL (Argument Dependant Lookup)
 -----------------
 ADT (Abstract Data Type)
     stack (LIFO) (push, pop, top, size, empty, clear)
@@ -574,8 +697,8 @@ using keyword:
     3) using std:cout;
     4) using namespace std;
 ------------------------------------
-18.Ders
-Video başlığı: classes 14: composition 2.5(Dersler karıştı), ADL tekrar, linkage, unnamed namespace, nested namespace, Necati hoca adamlık dersi veriyor, ODR tekrar, inline variables, inline namespace, namespace alias, string class 1
+Lesson 19
+Title: classes 14: composition 2.5(Dersler karıştı), ADL tekrar, linkage, unnamed namespace, nested namespace, Necati hoca adamlık dersi veriyor, ODR tekrar, inline variables, inline namespace, namespace alias, string class 1
 -----------------
 Eğer projeyi oluşturan birden fazla kaynak dosyada kullanılan isim aynı varlığa ilişkin ise, bu isim external linkage'a aittir
 linkage
@@ -584,8 +707,8 @@ linkage
 -----------------
 
 ------------------------------------
-19.Ders
-Video başlığı: classes 15: string class 1, initializer_list class 1
+Lesson 20
+Title: classes 15: string class 1, initializer_list class 1
 -----------------
 SSO -> Small string optimization
 SBO
@@ -640,8 +763,8 @@ string::falanca(initializer_list<char>)     // {'a', 'l', 'p'}
 string sx(x, c); // x tane c
 string sx {x, c}; // initializer list constructor'ı çağırılır. ascii'de x'e tekabul eden harf ve c yazılır.
 ------------------------------------
-20.Ders
-Video başlığı: classes 16: string class 2, inheritance 1
+Lesson 21
+Title: classes 16: string class 2, inheritance 1
 -----------------
 insert and erase
 iterator interface
@@ -660,8 +783,8 @@ class Der : public Base{
 };
 
 ------------------------------------
-21.Ders
-Video başlığı: classes 17: inheritance 2, virtual functions 1, override functions, contextual keyword, virtual dispatch 2
+Lesson 22
+Title:  classes 17: inheritance 2, virtual functions 1, override functions, contextual keyword, virtual dispatch 2
 -----------------
 class Airplane{
     void takeoff(); //1
@@ -678,8 +801,8 @@ class Airplane{
     concrete class
 
 ------------------------------------
-22.Ders
-Video başlığı: classes 18: inheritance 3, virtual functions 2, virtual dispatch 2, virtual destructor, using keyword in class, covariance (variant return type)
+Lesson 23
+Title:  classes 18: inheritance 3, virtual functions 2, virtual dispatch 2, virtual destructor, using keyword in class, covariance (variant return type)
 -----------------
 cppquiz.org
 NVI - Nonvirtual Interface Idiom
@@ -691,8 +814,8 @@ Eğer bir class'ta virtual function varsa, bir pointer fazla yer kaplar (Virtual
 
 Taban sınıfı destructor'u
 ------------------------------------
-23.Ders
-Video başlığı: classes 19: inheritance 4, covariance tekrar, final contextual keyword, unique_ptr, inherited constructor, private - protected inheritance, empty class, multiple inheritance 1
+Lesson 24
+Title:  classes 19: inheritance 4, covariance tekrar, final contextual keyword, unique_ptr, inherited constructor, private - protected inheritance, empty class, multiple inheritance 1
 -----------------
 final class
 final override
@@ -715,8 +838,8 @@ int a = x+++y; // Aşağıdaki gibi ele alınır (Compiler en önce en uzun oper
 
 int a = x++ + y;
 ------------------------------------
-24.Ders
-Video başlığı: classes 20: inheritance 5, multiple inheritance 2, virtual inheritance, exception handling 1
+Lesson 25
+Title: classes 20: inheritance 5, multiple inheritance 2, virtual inheritance, exception handling 1
 -----------------
 Diamond formation
 DDD Dreaded Diamond of Derivation
@@ -745,8 +868,8 @@ hatayı yakaladığımda ne yapacağım?
     terminative way (Direkt kapat)
     resumptive way - exception safety (Program çalışmaya devam etsin)
 ------------------------------------
-25.Ders
-Video başlığı: classes 21: exception handling 2
+Lesson 26
+Title: classes 21: exception handling 2
 -----------------
 Copy elision
 exception safe
@@ -788,8 +911,8 @@ catch(const Myexception &x){
 
 }
 ------------------------------------
-26.Ders
-Video başlığı: classes 22: exception handling 3, exception handling tekrar, creating classes for exceptions, constructors and exceptions
+Lesson 27
+Title: classes 22: exception handling 3, exception handling tekrar, creating classes for exceptions, constructors and exceptions
 -----------------
 class invariants
 unevaluated context
@@ -875,8 +998,8 @@ exception guarantees
     - Hata gönderilirse kendi yakalayıp işini görecek.
 
 ------------------------------------
-27.Ders
-Video başlığı: classes 23: exception handling 4, function try block, Runtime Type Identification, generic programming 1
+Lesson 28
+Title: classes 23: exception handling 4, function try block, Runtime Type Identification, generic programming 1
 -----------------
 RTTI (Runtime Type Identification/Information)
 unevaluated context
@@ -1003,8 +1126,8 @@ class template
 variable template
 alias template
 ------------------------------------
-28.Ders
-Video başlığı: classes 24: generic programming 2, type deductions in templates
+Lesson 29
+Title: classes 24: generic programming 2, type deductions in templates
 -----------------
 reference collapsing
 -----------------
@@ -1070,8 +1193,8 @@ auto sum(T x, U y)
     return x * y;
 } 
 ------------------------------------
-29.Ders
-Video başlığı: classes 25: generic programming 3, class templates 1
+Lesson 30
+Title: classes 25: generic programming 3, class templates 1
 -----------------
 auto return type:
 
@@ -1188,8 +1311,8 @@ void Data<T>::func(T x)
 
 }
 ------------------------------------
-30.Ders
-Video başlığı: classes 26: generic programming 4, class templates 2, Explicit (full) specialization, partial specialization, Perfect Forwarding, variadic templates and functions 1
+Lesson 31
+Title: classes 26: generic programming 4, class templates 2, Explicit (full) specialization, partial specialization, Perfect Forwarding, variadic templates and functions 1
 -----------------
 template instantiation
 template specialization
@@ -1355,8 +1478,8 @@ int main()
 }
 
 ------------------------------------
-31.Ders
-Video başlığı: classes 27: generic programming 5, variadic templates and functions 2, stl (Standard Template Library) 1
+Lesson 32
+Title: classes 27: generic programming 5, variadic templates and functions 2, stl (Standard Template Library) 1
 -----------------
 -----------------
 Variadic Template cont.
@@ -1405,8 +1528,8 @@ void print(const T &t, const Args& ...args)
         print(args...);
 }
 ------------------------------------
-32.Ders
-Video başlığı: stl (Standard Template Library) 2, iterator, algorithm, iterator categories
+Lesson 33
+Title: stl (Standard Template Library) 2, iterator, algorithm, iterator categories
 -----------------
 -----------------
 Iterator
