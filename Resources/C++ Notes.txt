@@ -557,7 +557,6 @@ EN:
 Operator overloading rules:
 
 1. Non-existing operator cannot be overloaded. (Eg. @)
-
 2. Primitive türler için kullanılamaz.
 2. Cannot be used for primitive types.
 
@@ -573,8 +572,7 @@ Operator overloading rules:
     [] square bracket operator
     -> arrow operator
     fonksiyon çağrı operatörü
-5. Çağırılan operatör fonksiyonu, sınıfın statik üye fonksiyonu olamaz.
-    global ya da non-static member function
+
 5. Called operator function cannot be the static member function.
     global or non-static member function
 
@@ -587,21 +585,17 @@ Operator overloading rules:
 
 7. Excluding function call operator, overloaded operators cannot have default arguments.
 
-8. Operatörlerin arity'si (operand sayısı) değiştirilemez.
-unary operatorler unary olarak
-binary operatorler binary olarak
-
 8. Arity (number of operands) cannot be changed.
 Unary operators have unary 
 binary operators have binary number of operands.
 
-9. All operator function can be called by their names (Eg. operator=()).
+9. All operator functions can be called by their names (Eg. operator=()).
 10. Operator priority level or operator priority direction cannot be changed.
 -----------------
 a + b addition operator
 +x (Sign operator)
 
-a - b substraction operator
+a - b subtraction operator
 -x (Sign operator)
 
 &x address of
@@ -620,32 +614,218 @@ Title: classes 9: Friend Declaration, operator overloading 2 (arithmetic operato
 x++ ==> PR value expression
 y-- ==> PR value expression
 -----------------
-Friend keyword:
-class Myclass {
-private:
-    friend void func(int);
-}
+Friend keyword: https://www.geeksforgeeks.org/friend-class-function-cpp/
+Friend Class A friend class can access private and protected members of other class in which it is declared as friend. 
+It is sometimes useful to allow a particular class to access private members of other class. 
+For example a LinkedList class may be allowed to access private members of Node.
+
+class Node { 
+private: 
+    int key; 
+    Node* next; 
+    /* Other members of Node Class */
+  
+    // Now class  LinkedList can 
+    // access private members of Node 
+    friend class LinkedList; 
+}; 
+
+Friend Function Like friend class, a friend function can be given special grant to access private and protected members. A friend function can be:
+a) A method of another class
+b) A global function
+
+class Node { 
+private: 
+    int key; 
+    Node* next; 
+  
+    /* Other members of Node Class */
+    friend int LinkedList::search(); 
+    // Only search() of linkedList 
+    // can access internal members 
+}; 
+
+Following are some important points about friend functions and classes:
+1) Friends should be used only for limited purpose. 
+Too many functions or external classes are declared as friends of a class with protected or private data, 
+it lessens the value of encapsulation of separate classes in object-oriented programming.
+2) Friendship is not mutual. If class A is a friend of B, then B doesn't become a friend of A automatically.
+3) Friendship is not inherited
+4) The concept of friends is not there in Java.
 
 class Neco {
-    ??? operator++();
-    ??? operator++(int); // postfix
+    ??? operator++(); (++x)
+    ??? operator++(int); // Postfix (x++)
 }
 
 // Global space
-operator ++(Neco&);
-operator ++(Neco&, int); // Postfix
+operator ++(Neco&); (++x)
+operator ++(Neco&, int); // Postfix (x++)
 
 ------------------------------------
 Lesson 15
 Title: classes 10: operator overloading 3 (special operators (*, ->, (), type-cast)), static variables and static member functions 1
 -----------------
-standard conversion
-user-defined conversion
-    conversion ctor
-    type-cast
+https://www.geeksforgeeks.org/type-conversion-in-c/
+A type cast is basically a conversion from one type to another. There are two types of type conversion:
+
+1) standard conversion (Implicit Type Conversion)
+
+Implicit Type Conversion Also known as ‘automatic type conversion’.
+Done by the compiler on its own, without any external trigger from the user.
+Generally takes place when in an expression more than one data type is present. In such condition type conversion (type promotion) takes place to avoid loss of data.
+All the data types of the variables are upgraded to the data type of the variable with largest data type:
+
+bool -> char -> short int -> int -> 
+unsigned int -> long -> unsigned -> 
+long long -> float -> double -> long double
+
+It is possible for implicit conversions to lose information, signs can be lost (when signed is implicitly converted to unsigned), 
+and overflow can occur (when long long is implicitly converted to float).
+
+// An example of implicit conversion 
+  
+#include <iostream> 
+using namespace std; 
+  
+int main() 
+{ 
+    int x = 10; // integer x 
+    char y = 'a'; // character c 
+  
+    // y implicitly converted to int. ASCII 
+    // value of 'a' is 97 
+    x = x + y; 
+  
+    // x is implicitly converted to float 
+    float z = x + 1.0; 
+  
+    cout << "x = " << x << endl 
+         << "y = " << y << endl 
+         << "z = " << z << endl; 
+  
+    return 0; 
+}
+
+Output:
+x = 107
+y = a
+z = 108
+====================
+2) user-defined conversion (Explicit Type Conversion)
+This process is also called type casting and it is user-defined. Here the user can typecast the result to make it of a particular data type.
+In C++, it can be done by two ways:
+
+1) type-cast (Converting by assignment)
+This is done by explicitly defining the required type in front of the expression in parenthesis. This can be also considered as forceful casting.
+
+(type) expression
+where type indicates the data type to which the final result is converted.
+
+// C++ program to demonstrate 
+// explicit type casting 
+  
+#include <iostream> 
+using namespace std; 
+  
+int main() 
+{ 
+    double x = 1.2; 
+  
+    // Explicit conversion from double to int 
+    int sum = (int)x + 1; 
+  
+    cout << "Sum = " << sum; 
+  
+    return 0; 
+} 
+
+Output:
+Sum = 2
+
+2) Conversion using Cast operator: A Cast operator is an unary operator which forces one data type to be converted into another data type.
+C++ supports four types of casting:
+a) Static Cast
+
+Static Cast: This is the simplest type of cast which can be used. It is a compile time cast.
+It does things like implicit conversions between types (such as int to float, or pointer to void*), and it can also call explicit conversion functions (or implicit ones).
+
+// For more cases, visit https://www.geeksforgeeks.org/static_cast-in-c-type-casting-operators/
+
+#include <iostream> 
+using namespace std; 
+int main() 
+{ 
+    float f = 3.5; 
+    int a = f; // this is how you do in C 
+    int b = static_cast<int>(f); 
+    cout << b; 
+} 
+
+b) Dynamic Cast
+Safely converts pointers and references to classes up, down, and sideways along the inheritance hierarchy. (https://en.cppreference.com/w/cpp/language/dynamic_cast)
+
+Syntax
+dynamic_cast < new-type > ( expression )		
+new-type	-	pointer to complete class type, reference to complete class type, or pointer to (optionally cv-qualified) void
+expression	-	lvalue (until C++11) glvalue (since C++11) of a complete class type if new-type is a reference, prvalue of a pointer to complete class type if new-type is a pointer.
+
+c) Const Cast
+const_cast is used to cast away the constness of variables. 
+For more info: https://www.geeksforgeeks.org/const_cast-in-c-type-casting-operators/
+
+d) Reinterpret Cast
+
+reinterpret_cast is a type of casting operator used in C++.
+
+It is used to convert one pointer of another pointer of any type, no matter either the class is related to each other or not.
+It does not check if the pointer type and data pointed by the pointer is same or not.
+
+Syntax:
+data_type *var_name = reinterpret_cast <data_type *>(pointer_variable);
+
+Return Type:
+It doesn’t have any return type. It simply converts the pointer type.
+
+Purpose for using reinterpret_cast: 
+
+1) reinterpret_cast is a very special and dangerous type of casting operator. 
+And is suggested to use it using proper data type i.e., (pointer data type should be same as original data type).
+
+2) It can typecast any pointer to any other data type.
+3) It is used when we want to work with bits.
+4) If we use this type of cast then it becomes a non-portable product. So, it is suggested not to use this concept unless required.
+5) It is only used to typecast any pointer to its original type.
+6) Boolean value will be converted into integer value i.e., 0 for false and 1 for true.
+====================
+3) conversion ctor
+
+A constructor that is not declared with the specifier explicit and which can be called with a single parameter (until C++11) is called a converting constructor.
+
+Unlike explicit constructors, which are only considered during direct initialization (which includes explicit conversions such as static_cast), 
+converting constructors are also considered during copy initialization, as part of user-defined conversion sequence.
+
+It is said that a converting constructor specifies an implicit conversion from the types of its arguments (if any) to the type of its class. 
+Note that non-explicit user-defined conversion function also specifies an implicit conversion.
+
+Implicitly-declared and user-defined non-explicit copy constructors and move constructors are converting constructors.
+
+For example code, see: https://en.cppreference.com/w/cpp/language/converting_constructor
 ------------------------------------
 Lesson 16
 Title: classes 11: static variables and static member functions 2, singleton design pattern, nested member types 1
+------------------------------------
+-----------------
+C++ and C memory layout: https://cpp.tech-academy.co.uk/memory-layout/
+static variables: 
+Static variables have a property of preserving their value even after they are out of their scope!
+Hence, static variables preserve their previous value in their previous scope and are not initialized again in the new scope.
+
+Syntax:
+static data_type var_name = var_value; 
+
+For more info: https://www.geeksforgeeks.org/static-variables-in-c/
+
 ------------------------------------
 Lesson 17
 Title: classes 12: nested member types 2, including header files (pimpl idiom), composition, kamera düştü :D, ctor - dtor tekrar
@@ -1527,81 +1707,6 @@ void print(const T &t, const Args& ...args)
     if constexpr(sizeof(args) != 0)
         print(args...);
 }
-------------------------------------
-Lesson 33
-Title: stl (Standard Template Library) 2, iterator, algorithm, iterator categories
------------------
------------------
-Iterator
-
-template<typename T, typename A = std::allocator<T>>
-class Vector
-{
-public:
-    class iterator
-    {
-    public:
-        T& operator*();
-        T *operator->();
-        void operator++();
-        void operator--();
-    };
-};
-
-using cont = std::list<int>;
-
-int main(){
-
-    using namespace std;
-
-    cont cx{1,5,7,9,12,3,4,5,6};
-    for(auto iter = cx.begin();iter != cx.end(); ++iter)
-    {
-        cout << *iter << " ";
-    }
-}
-
-iterator kategorisi iterator interface'ini belirliyor. (O iterator ile ne yapabiliriz, ++, -- gibi)
-input iterator
-copy constuctible
-
-++it it--
-*it it->    (R value)
-it1==it2    it1 !? it2
-
-
-output iterator
-copy constuctible
-++it it++
-*it it-> (L value)
-
-
-
-forward iterator
-copy constuctible, default constructible
-++it it++
-*it it->  (l value, r value)
-it1 == it2  it1 != it2
-
-
-bidirectional iterator
-copy constuctible, default constructible
-++it it++   --it it--
-*it it->  (l value, r value)
-it1 == it2  it1 != it2
-
-
-random_access_iterator
-copy constuctible, default constructible
-++it it++   --it it--
-*it it->  (l value, r value)
-it1 == it2  it1 != it2
-it + n  n + it  it - n...
-==================
-Algorithm
-
-#include <algorithm> // %95'i burada
-#include <numeric>  //%5'i burada
 
 
 

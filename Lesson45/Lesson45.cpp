@@ -301,7 +301,6 @@ int main(int argc, char* argv[])
 #include <memory>
 #include <string>
 
-
 #include "date.h"
 
 using namespace std;
